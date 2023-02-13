@@ -6,6 +6,7 @@ import rateLimit from 'express-rate-limit';
 
 import {configCorsUrl} from "./utils/configCorsUrl";
 import {movieRouter} from "./routers/movieRouter";
+import {userRouter} from "./routers/userRouter";
 const bodyParser = require('body-parser')
 
 const app =express()
@@ -23,6 +24,7 @@ app.use(rateLimit({
 }))
 
 app.use('/movie/',movieRouter)
+app.use('/user/',userRouter)
 
 app.use(handleErrors)
 app.listen(3001,'0.0.0.0',()=>{
