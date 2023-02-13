@@ -1,0 +1,1 @@
+export const configCorsUrl = 'http://localhost:3000'
