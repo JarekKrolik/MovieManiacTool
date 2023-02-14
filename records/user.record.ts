@@ -45,7 +45,7 @@ return this.id;
 }
 
 static async logIn (userName:string,password:string):Promise<UserEntity>{
-        const [result]= await pool.execute("SELECT * FROM `users` WHERE `id`=:userName AND `passwordhash`=:password",{
+        const [result]= await pool.execute("SELECT * FROM `users` WHERE `name`=:userName AND `passwordhash`=:password",{
             userName:userName,
             password:password,
         }) as [UserEntity[],FieldPacket[]]

@@ -5,10 +5,11 @@ import {UserEntity} from "../types";
 
 
 export const userRouter = Router()
-    .post('/:id',async (req:Request,res:Response)=>{
-const id = req.params.id;
+    .post('/:name',async (req:Request,res:Response)=>{
+const id = req.params.name;
 const password = req.body.password;
 const user = await UserRecord.logIn(id,password)
+        console.log(user)
 user?res.json(user):res.json(null)
 
     }).post('/', async (req:Request,res:Response)=>{
