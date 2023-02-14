@@ -3,9 +3,7 @@ import cors from 'cors';
 import 'express-async-errors';
 import {handleErrors, ValidationError} from "./utils/handleErrors";
 import rateLimit from 'express-rate-limit';
-
 import {configCorsUrl} from "./utils/configCorsUrl";
-import {movieRouter} from "./routers/movieRouter";
 import {userRouter} from "./routers/userRouter";
 const bodyParser = require('body-parser')
 
@@ -23,7 +21,7 @@ app.use(rateLimit({
     max: 100,
 }))
 
-app.use('/movie/',movieRouter)
+
 app.use('/user/',userRouter)
 
 app.use(handleErrors)
