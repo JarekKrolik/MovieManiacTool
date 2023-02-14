@@ -1,9 +1,24 @@
 import {Request, Response, Router} from "express";
-import {MovieFinder} from "../repository/MovieFinder";
+import {pool} from "../utils/db";
+import {UserRecord} from "../records/user.record";
+import {UserEntity} from "../types";
+
 
 export const userRouter = Router()
-    .get('/:id',async (req:Request,res:Response)=>{
-        const id = await req.body.params;
+    .post('/:id',async (req:Request,res:Response)=>{
+const id = req.params.id;
+const password = req.body.password;
+const user = await UserRecord.logIn(id,password)
+user?res.json(user):res.json(null)
 
-        res.json({ok:'ok'})
+    }).post('/', async (req:Request,res:Response)=>{
+
+ const obj = await req.body as UserEntity
+ const newUser = new UserRecord(obj);
+ const resp =   await newUser.insertIntoDb()
+ res.json({ok:'ok'})
+
+
+
+
     })

@@ -1,11 +1,15 @@
 import {UserEntity} from "../types/movieTypes/user.type";
 import{v4}from 'uuid'
 import {ValidationError} from "../utils/handleErrors";
+import {pool} from "../utils/db";
+import {FieldPacket} from "mysql2";
 export class UserRecord implements UserEntity {
     email: string;
     id?: string;
     name: string;
     passwordHash: string;
+    avatar: number;
+
 
 
     constructor(obj: UserEntity) {
@@ -15,7 +19,7 @@ export class UserRecord implements UserEntity {
         if(!obj.passwordHash||obj.passwordHash.length<6){throw new ValidationError('invalid or to short password  !')}
 
 
-
+this.avatar=obj.avatar,
         this.email=obj.email,
             this.id=obj.id,
             this.name=obj.name,
@@ -24,12 +28,35 @@ export class UserRecord implements UserEntity {
 
     }
 
+async insertIntoDb ():Promise<string>{
 
 
 
-    static async getUserById(id:string){
+    await pool.execute("INSERT INTO `users`(`id`, `name`, `passwordhash`, `email`,`avatar`) VALUES (:id,:name,:passwordHash,:email,:avatar)",{
+        id:this.id,
+        name:this.name,
+        passwordHash:this.passwordHash,
+        email:this.email,
+        avatar:this.avatar,
+    })
 
-    }
+return this.id;
+
+}
+
+static async logIn (userName:string,password:string):Promise<UserEntity>{
+        const [result]= await pool.execute("SELECT * FROM `users` WHERE `id`=:userName AND `passwordhash`=:password",{
+            userName:userName,
+            password:password,
+        }) as [UserEntity[],FieldPacket[]]
+
+
+        return result[0]?result[0]:null
+}
+
+
+
+
 
 
 }
