@@ -5,6 +5,7 @@ import {handleErrors, ValidationError} from "./utils/handleErrors";
 import rateLimit from 'express-rate-limit';
 import {configCorsUrl} from "./utils/configCorsUrl";
 import {userRouter} from "./routers/userRouter";
+import {verificationRouter} from "./routers/verificationRouter";
 const bodyParser = require('body-parser')
 
 const app =express()
@@ -23,6 +24,7 @@ app.use(rateLimit({
 
 
 app.use('/user/',userRouter)
+app.use('/verify/',verificationRouter)
 
 app.use(handleErrors)
 app.listen(3001,'0.0.0.0',()=>{

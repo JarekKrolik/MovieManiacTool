@@ -3,9 +3,10 @@ export interface UserEntity {
     id?:string,
     name:string,
     email:string,
-    passwordHash:string,
+    passwordhash:string,
     isVerified?:boolean,
     avatar:number,
 
 
 }
+
