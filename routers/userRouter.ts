@@ -2,6 +2,7 @@ import {Request, Response, Router} from "express";
 import {UserRecord} from "../records/user.record";
 import {UserEntity} from "../types";
 import {sendVerEmail} from "../utils/sendVerificationEmail";
+import {ValidationError} from "../utils/handleErrors";
 
 
 export const userRouter = Router()
@@ -13,11 +14,20 @@ export const userRouter = Router()
 
     }).post('/', async (req:Request,res:Response)=>{
 
-                      const obj = await req.body as UserEntity
+                   try{   const obj = await req.body as UserEntity
                       const newUser = new UserRecord(obj);
                       const resp =   await newUser.insertIntoDb()
+                       await sendVerEmail(newUser.email,newUser.id)
+                       res.json({
+                           ...newUser,
+                           passwordhash:'',
+                       })
+                   }catch (err){
+                     throw new ValidationError(err)
+                       }
 
-                      // await sendVerEmail(newUser.email,newUser.id)
-                      res.json(newUser)
+
+
+
 
     })

@@ -15,13 +15,13 @@ export const sendVerEmail =  (email:string,id:string)=>{
             pass: 'Lastv8interceptor'
         }
     });
-    const link =`http://localhost:3001/verify/${id}`
+
     const mailOptions = {
         from: 'madmax@onet.eu',
         to: email,
         subject: 'Weryfikacja konta MovieManiac',
-        text: `Aby dokończyć rejestrację w aplikacji MovieManiac kliknij w link : `,
-        html:'<a href=>kliknij aby potwierdzić konto</a>'
+        text: `Poprawna rejestracja konta `,
+
     };
 
     transporter.sendMail(mailOptions, function(error, info){
