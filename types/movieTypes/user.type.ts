@@ -6,6 +6,7 @@ export interface UserEntity {
     passwordhash:string,
     isVerified?:boolean,
     avatar:number,
+    verificationNumber?:number|null
 
 
 }

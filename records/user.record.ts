@@ -4,12 +4,14 @@ import {ValidationError} from "../utils/handleErrors";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
 import {compare, hash} from "bcrypt";
+import {match} from "assert";
 export class UserRecord implements UserEntity {
     email: string;
     id?: string;
     name: string;
     passwordhash: string;
     avatar: number;
+    verificationNumber?:number|null
 
 
 
@@ -20,28 +22,31 @@ export class UserRecord implements UserEntity {
         if(!obj.passwordhash||obj.passwordhash.length<6){throw new ValidationError('invalid or to short password  !')}
 
 
-           this.avatar=obj.avatar;
+
+            this.avatar=obj.avatar;
             this.email=obj.email;
             this.id=obj.id;
             this.name=obj.name;
             this.passwordhash = obj.passwordhash;
-
+            this.verificationNumber=null;
 
 
     }
-async insertIntoDb ():Promise<string>{
+async insertIntoDb ():Promise<number>{
+ const verificationCode = Math.floor(Math.random()*(9999-8000)+1999)
 
  const hashPassword = await hash(this.passwordhash,10)
 
-    await pool.execute("INSERT INTO `userslist`(`id`, `name`, `passwordhash`, `email`,`avatar`) VALUES (:id,:name,:passwordhash,:email,:avatar)",{
+    await pool.execute("INSERT INTO `userslist`(`id`, `name`, `passwordhash`, `email`,`avatar`,`verification_code`) VALUES (:id,:name,:passwordhash,:email,:avatar,:verificationCode)",{
         id:this.id,
         name:this.name,
         passwordhash:hashPassword,
         email:this.email,
         avatar:this.avatar,
+        verificationCode:verificationCode,
     })
 
-return this.id;
+return verificationCode;
 
 }
 

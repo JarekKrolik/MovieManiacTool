@@ -16,8 +16,8 @@ export const userRouter = Router()
 
                    try{   const obj = await req.body as UserEntity
                       const newUser = new UserRecord(obj);
-                      const resp =   await newUser.insertIntoDb()
-                       await sendVerEmail(newUser.email,newUser.id)
+                      const verificationNumber =   await newUser.insertIntoDb()
+                        sendVerEmail(newUser.email,verificationNumber)
                        res.json({
                            ...newUser,
                            passwordhash:'',

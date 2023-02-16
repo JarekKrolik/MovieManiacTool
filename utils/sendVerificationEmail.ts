@@ -1,6 +1,7 @@
 import {createTransport,} from 'nodemailer'
 
-export const sendVerEmail =  (email:string,id:string)=>{
+export const sendVerEmail =  (email:string,verificationCode:number)=>{
+
 
 
     const transporter = createTransport({
@@ -20,7 +21,7 @@ export const sendVerEmail =  (email:string,id:string)=>{
         from: 'madmax@onet.eu',
         to: email,
         subject: 'Weryfikacja konta MovieManiac',
-        text: `Poprawna rejestracja konta `,
+        text: `Poprawna rejestracja konta, aby dokończyć proces podaj ten kod przy kolejnym logowaniu : ${verificationCode} `,
 
     };
 
