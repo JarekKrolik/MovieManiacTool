@@ -11,28 +11,51 @@ export class UserRecord implements UserEntity {
     name: string;
     passwordhash: string;
     avatar: number;
-    verificationNumber?:number|null
+    verification_code?:number|null;
+    isverified:false;
+    date?:any;
 
 
 
     constructor(obj: UserEntity) {
         if(!obj.id){obj.id=v4()};
-        if(obj.name.length<3){throw new ValidationError('name should be at least 3 characters long !')}
+        if(obj.name.length<3||obj.name.length>10){throw new ValidationError('name should be between 3 and 10 characters')}
         if(obj.email.indexOf('@')<0){throw new ValidationError('invalid email adress  !')}
         if(!obj.passwordhash||obj.passwordhash.length<6){throw new ValidationError('invalid or to short password  !')}
 
 
-
+            this.isverified=false;
             this.avatar=obj.avatar;
             this.email=obj.email;
             this.id=obj.id;
             this.name=obj.name;
             this.passwordhash = obj.passwordhash;
-            this.verificationNumber=null;
+            this.verification_code=null;
 
 
     }
-async insertIntoDb ():Promise<number>{
+
+    static async changeAvatar (id:string,avatar:number):Promise<void>{
+        try{
+        await pool.execute("UPDATE `userslist` SET `avatar`=:avatar WHERE `id`=:id",{
+            avatar:String(avatar),
+            id:id,
+            }
+        );
+        }catch (e){throw new ValidationError(e)}
+
+
+    }
+
+    static async getOneUser  (id:string):Promise<UserEntity[]>{
+        const user = await pool.execute("SELECT * FROM `userslist` WHERE `id`=:id",{
+            id:id,
+        }) as [UserEntity[],FieldPacket[]]
+
+        return user[0]
+    }
+
+ async insertIntoDb ():Promise<number>{
  const verificationCode = Math.floor(Math.random()*(9999-8000)+1999)
 
  const hashPassword = await hash(this.passwordhash,10)
@@ -58,9 +81,12 @@ static async logIn (userName:string,password:string):Promise<UserEntity>{
 
         }) as [UserEntity[],FieldPacket[]]
 
+          if(!result[0]){return null}
           const check = await compare(password,result[0].passwordhash)
+          if(check){
+              return result[0]
 
-          return check?result[0]:null
+          }
 }
 
 

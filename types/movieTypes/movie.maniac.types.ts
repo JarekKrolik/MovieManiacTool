@@ -45,3 +45,12 @@ export interface SingleMovieSpecific {
 
 
 }
+
+export interface ActorsListEntity {
+    description:string,
+    id:string,
+    image:string,
+    resultType:string,
+    title:string,
+
+}

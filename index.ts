@@ -17,10 +17,10 @@ app.use(cors({
 app.use(json());
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
-app.use(rateLimit({
-    windowMs: 5 * 60 * 1000,
-    max: 100,
-}))
+// app.use(rateLimit({
+//     windowMs: 5 * 60 * 1000,
+//     max: 100,
+// }))
 
 
 app.use('/user/',userRouter)
