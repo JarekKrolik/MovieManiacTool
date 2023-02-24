@@ -23,7 +23,6 @@ export interface NowInCinemasMovieEntity extends MovieListEntity{
 export interface SingleMovieSpecific {
     actorList:any[],
     awards:string,
-    boxOffice:string,
     companies:string,
     contentRating:string,
     directors:string,
@@ -31,7 +30,12 @@ export interface SingleMovieSpecific {
     genres:string,
     imDbRating:string,
     image:string,
-    images:object;
+    images:{
+        items:{
+            image:string,
+            title:string,
+        }[],
+    };
     keywords:string,
     plot:string,
     metacriticRating:string,
@@ -42,7 +46,12 @@ export interface SingleMovieSpecific {
     writers:string,
     wikipedia:object,
     type:string,
+    runtimeStr:string,
+boxOffice:{
+        budget:string,
+    cumulativeWorldwideGross:string,
 
+}
 
 }
 
