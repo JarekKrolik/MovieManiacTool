@@ -21,8 +21,20 @@ export interface NowInCinemasMovieEntity extends MovieListEntity{
 }
 
 export interface SingleMovieSpecific {
-    actorList:any[],
+    fullCast:{
+        actors:{
+asCharacter:string,
+            id:string,
+            image:string,
+            name:string,
+        }[]
+    },
     awards:string,
+    trailer:{
+        link:string,
+        linkEmbed:string,
+    },
+    countries:string,
     companies:string,
     contentRating:string,
     directors:string,
@@ -30,6 +42,14 @@ export interface SingleMovieSpecific {
     genres:string,
     imDbRating:string,
     image:string,
+    ratings:{
+        filmAffinity:string,
+        imDb:string,
+        metacritic:string,
+        rottenTomatoes:string,
+        theMovieDb:string,
+
+    },
     images:{
         items:{
             image:string,
@@ -43,6 +63,7 @@ export interface SingleMovieSpecific {
     stars:string,
     tagline:string|null,
     year:string,
+    languages:string,
     writers:string,
     wikipedia:object,
     type:string,
@@ -61,5 +82,26 @@ export interface ActorsListEntity {
     image:string,
     resultType:string,
     title:string,
+
+}
+
+export interface SingleActorSpecific {
+    id:string,
+    name:string,
+    image:string,
+    summary:string,
+    awards:string,
+    birthDate:string,
+    deathDate:string,
+    height:string,
+    castMovies:{
+        description:string,
+        id:string,
+        role:string,
+        title:string,
+        year:string,
+    }[],
+
+
 
 }
