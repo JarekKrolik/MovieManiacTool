@@ -21,6 +21,7 @@ export interface NowInCinemasMovieEntity extends MovieListEntity{
 }
 
 export interface SingleMovieSpecific {
+    errorMessage:string,
     fullCast:{
         actors:{
 asCharacter:string,
@@ -86,6 +87,7 @@ export interface ActorsListEntity {
 }
 
 export interface SingleActorSpecific {
+    errorMessage:string,
     id:string,
     name:string,
     image:string,
