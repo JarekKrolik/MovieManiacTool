@@ -107,3 +107,8 @@ export interface SingleActorSpecific {
 
 
 }
+
+export interface FavouriteMoviesList {
+    user:string,
+    movie_id:string,
+}
