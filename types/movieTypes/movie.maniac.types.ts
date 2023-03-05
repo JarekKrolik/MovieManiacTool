@@ -27,10 +27,17 @@ export interface NowInCinemasMovieEntity extends MovieListEntity {
 }
 
 export interface SingleMovieSpecific {
+    id:string,
+    similars: {
+        id: string,
+        imDbRating: string,
+        image: string,
+        title: string,
+    }[]
     posters: {
         backdrops: {
-            id:string,
-            link:string,
+            id: string,
+            link: string,
         }[],
         posters: {
             id: string,
@@ -82,7 +89,6 @@ export interface SingleMovieSpecific {
     year: string,
     languages: string,
     writers: string,
-    wikipedia: object,
     type: string,
     runtimeStr: string,
     boxOffice: {
@@ -90,7 +96,23 @@ export interface SingleMovieSpecific {
         cumulativeWorldwideGross: string,
 
     }
+    wikipedia: {
+        plotFull: {
+            plainText: string
+        },
+    }
 
+}
+
+export interface YoutubeTrailer {
+    "imDbId": string,
+    "title": string,
+    "fullTitle": string,
+    "type": string,
+    "year": string,
+    "videoId": string,
+    "videoUrl": string,
+    "errorMessage": string,
 }
 
 export interface ActorsListEntity {
@@ -120,6 +142,14 @@ export interface SingleActorSpecific {
         title: string,
         year: string,
     }[],
+
+    knownFor: {
+        fullTitle: string,
+        id: string,
+        image: string,
+        role: string,
+        year: string,
+    }[]
 
 
 }
