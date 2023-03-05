@@ -84,9 +84,10 @@ static async logIn (userName:string,password:string):Promise<UserEntity>{
           if(!result[0]){return null}
           const check = await compare(password,result[0].passwordhash)
           if(check){
-              return result[0]
+              if(result[0].name===userName){return result[0]}else return null
 
-          }
+
+          }else return null
 }
 
 
