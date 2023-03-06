@@ -22,6 +22,12 @@ export interface NowInCinemasMovieEntity extends MovieListEntity {
     stars: string,
     releaseState: string,
     errorMessage: string,
+    image:string,
+    id:string,
+    contentRating:string,
+    directors:string,
+    plot:string,
+    runtimeStr:string,
 
 
 }
