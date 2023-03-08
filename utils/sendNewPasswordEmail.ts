@@ -1,6 +1,6 @@
 import {createTransport,} from 'nodemailer'
 
-export const sendVerEmail = (email: string, verificationCode: number) => {
+export const sendNewPasswordEmail = (email: string, password: string) => {
 
     const message = `<div style="height:100vh;
 text-align: center;
@@ -12,12 +12,12 @@ color: cornflowerblue;
 ">MovieManiac</h1>
 <p style="color:cornflowerblue;
 text-align: center;">
-  Twój kod niezbędny do weryfikacji konta w aplikacji MovieManiac :
+  Twoje nowe hasło, możesz je zmienić w panelu użytkownika :
 </p>
 <h2 style="text-align: center;
 color: cornflowerblue;"
 
->${verificationCode}</h2>
+>${password}</h2>
 
 
 </div>`
@@ -39,7 +39,7 @@ color: cornflowerblue;"
     const mailOptions = {
         from: 'madmax@onet.eu',
         to: email,
-        subject: 'Weryfikacja konta MovieManiac',
+        subject: 'Reset hasła do konta MovieManiac',
         html: message,
 
     };

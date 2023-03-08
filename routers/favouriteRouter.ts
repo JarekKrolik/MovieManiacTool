@@ -41,7 +41,7 @@ export const favouriteRouter = Router()
                     image: data.image,
                 })
             }
-            console.log('dziala')
+
             res.json({response: 'ok'})
 
         } catch (e) {
