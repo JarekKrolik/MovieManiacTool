@@ -46,21 +46,29 @@ export class UserRecord implements UserEntity {
 
     static async resetPassword(): Promise<string> {
         return generate({
-    length: 10,
-    numbers: true
-})
+            length: 10,
+            numbers: true
+        })
+    }
+
+    static async changePassword(id: string, newPassword: string): Promise<void> {
+        const password = await hash(newPassword, 10)
+        pool.execute("UPDATE `userslist` SET `passwordhash`=:password WHERE `id`=:id", {
+            password: password,
+            id: id,
+        })
+
+
     }
 
     static async changeAvatar(id: string, avatar: number): Promise<void> {
-        try {
+
             await pool.execute("UPDATE `userslist` SET `avatar`=:avatar WHERE `id`=:id", {
                     avatar: String(avatar),
                     id: id,
                 }
             );
-        } catch (e) {
-            throw new ValidationError(e)
-        }
+
 
 
     }
