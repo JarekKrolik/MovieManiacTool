@@ -7,11 +7,21 @@ export interface MovieListEntity {
     errorMessage: string,
 }
 
+export interface ActorsListEntity {
+    description: string,
+    id: string,
+    image: string,
+    resultType: string,
+    title: string,
+    errorMessage: string,
+
+}
+
 export interface Response {
-    "searchType": string,
-    "expression": string,
-    "results": MovieListEntity[] | ActorsListEntity[]
-    "errorMessage": string,
+    searchType: string,
+    expression: string,
+    results: MovieListEntity[] | ActorsListEntity[]
+    errorMessage: string,
 }
 
 export interface NowInCinemasMovieEntity extends MovieListEntity {
@@ -22,18 +32,18 @@ export interface NowInCinemasMovieEntity extends MovieListEntity {
     stars: string,
     releaseState: string,
     errorMessage: string,
-    image:string,
-    id:string,
-    contentRating:string,
-    directors:string,
-    plot:string,
-    runtimeStr:string,
+    image: string,
+    id: string,
+    contentRating: string,
+    directors: string,
+    plot: string,
+    runtimeStr: string,
 
 
 }
 
 export interface SingleMovieSpecific {
-    id:string,
+    id: string,
     similars: {
         id: string,
         imDbRating: string,
@@ -121,15 +131,6 @@ export interface YoutubeTrailer {
     "errorMessage": string,
 }
 
-export interface ActorsListEntity {
-    description: string,
-    id: string,
-    image: string,
-    resultType: string,
-    title: string,
-    errorMessage: string,
-
-}
 
 export interface SingleActorSpecific {
     errorMessage: string,

@@ -21,7 +21,7 @@ export class UserRecord implements UserEntity {
         if (!obj.id) {
             obj.id = v4()
         }
-        ;
+
         if (obj.name.length < 3 || obj.name.length > 10) {
             throw new ValidationError('name should be between 3 and 10 characters')
         }
@@ -62,15 +62,11 @@ export class UserRecord implements UserEntity {
     }
 
     static async changeAvatar(id: string, avatar: number): Promise<void> {
-
-            await pool.execute("UPDATE `userslist` SET `avatar`=:avatar WHERE `id`=:id", {
-                    avatar: String(avatar),
-                    id: id,
-                }
-            );
-
-
-
+        await pool.execute("UPDATE `userslist` SET `avatar`=:avatar WHERE `id`=:id", {
+                avatar: String(avatar),
+                id: id,
+            }
+        );
     }
 
     static async getOneUser(id: string): Promise<UserEntity[]> {
@@ -79,24 +75,6 @@ export class UserRecord implements UserEntity {
         }) as [UserEntity[], FieldPacket[]]
 
         return user[0]
-    }
-
-    async insertIntoDb(): Promise<number> {
-        const verificationCode = Math.floor(Math.random() * (9999 - 8000) + 1999)
-
-        const hashPassword = await hash(this.passwordhash, 10)
-
-        await pool.execute("INSERT INTO `userslist`(`id`, `name`, `passwordhash`, `email`,`avatar`,`verification_code`) VALUES (:id,:name,:passwordhash,:email,:avatar,:verificationCode)", {
-            id: this.id,
-            name: this.name,
-            passwordhash: hashPassword,
-            email: this.email,
-            avatar: this.avatar,
-            verificationCode: verificationCode,
-        })
-
-        return verificationCode;
-
     }
 
     static async logIn(userName: string, password: string): Promise<UserEntity> {
@@ -118,6 +96,24 @@ export class UserRecord implements UserEntity {
 
 
         } else return null
+    }
+
+    async insertIntoDb(): Promise<number> {
+        const verificationCode = Math.floor(Math.random() * (9999 - 8000) + 1999)
+
+        const hashPassword = await hash(this.passwordhash, 10)
+
+        await pool.execute("INSERT INTO `userslist`(`id`, `name`, `passwordhash`, `email`,`avatar`,`verification_code`) VALUES (:id,:name,:passwordhash,:email,:avatar,:verificationCode)", {
+            id: this.id,
+            name: this.name,
+            passwordhash: hashPassword,
+            email: this.email,
+            avatar: this.avatar,
+            verificationCode: verificationCode,
+        })
+
+        return verificationCode;
+
     }
 
 
