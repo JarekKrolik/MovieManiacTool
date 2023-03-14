@@ -1,3 +1,5 @@
+import {FavouriteActorsList, FavouriteMoviesList, MovieListEntity} from "./movie.maniac.types";
+
 export interface UserEntity {
     id?: string,
     name: string,
@@ -11,27 +13,20 @@ export interface UserEntity {
 
 }
 
-export interface UserData {
 
+export interface UserData {
     id: string,
     name: string,
     date: string,
     avatar: number,
     email: string,
     movieId: string,
-    favMovies: [{
-        movie_id: string,
-        user: string,
-        name: string,
-        image: string,
-    }],
-    favActors: [{
-        actor_id: string,
-        user: string,
-        name: string,
-        image: string,
-    }],
-    searchList: [
+
+    favMovies: FavouriteMoviesList[],
+
+    favActors: FavouriteActorsList[],
+
+    searchList:
         {
             id: string,
             title: string,
@@ -39,8 +34,8 @@ export interface UserData {
             image: string,
             resultType: string,
             errorMessage: string,
-        },
-    ],
+        }[] | MovieListEntity[],
+
     selectedItem: {
         id: string,
         type: string,
