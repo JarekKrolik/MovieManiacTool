@@ -6,13 +6,13 @@ export const sendNewPasswordEmail = (email: string, password: string) => {
 text-align: center;
 background-color: #1c1b1b;
 ">
-<h1 style="height: 30vh;
+<h1 style="min-height: 30vh;
 background-color: #1c1b1b;
 color: cornflowerblue;
 ">MovieManiac</h1>
 <p style="color:cornflowerblue;
 text-align: center;">
-  Twoje nowe hasło, możesz je zmienić w panelu użytkownika :
+  Your new password :
 </p>
 <h2 style="text-align: center;
 color: cornflowerblue;"

@@ -61,7 +61,7 @@ export const userRouter = Router()
     }).put('/change_password/:id', async (req: Request, res: Response) => {
         await UserRecord.changePassword(req.params.id, req.body.password)
         res.json({
-            message: 'hasło zmienione'
+            message: 'password changed'
         })
     })
 

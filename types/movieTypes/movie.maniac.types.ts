@@ -62,6 +62,14 @@ export interface SingleMovieSpecific {
     }
     errorMessage: string,
     fullCast: {
+        others: {
+            job: string,
+            items: {
+                id: string,
+                name: string,
+                description: string
+            }[]
+        }[]
         actors: {
             asCharacter: string,
             id: string,

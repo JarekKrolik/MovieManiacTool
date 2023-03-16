@@ -20,7 +20,7 @@ export const verificationRouter = Router()
                 email: req.body.email,
             })
             await sendNewPasswordEmail(req.body.email, newPassword)
-            res.json({response: 'nowe hasło wysłane na e-mail'})
+            res.json({response: 'New password was sent on your e-mail'})
         } catch (e) {
             throw new ValidationError(e)
         }

@@ -12,7 +12,7 @@ color: cornflowerblue;
 ">MovieManiac</h1>
 <p style="color:cornflowerblue;
 text-align: center;">
-  Twój kod niezbędny do weryfikacji konta w aplikacji MovieManiac :
+  Your verification code for MovieManiac :
 </p>
 <h2 style="text-align: center;
 color: cornflowerblue;"
