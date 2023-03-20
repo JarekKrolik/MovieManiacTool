@@ -182,3 +182,19 @@ export interface FavouriteActorsList {
     name: string,
     image: string,
 }
+
+export interface CommentsEntity {
+    id: string,
+    name: string,
+    comment: string,
+    created_at: Date,
+    avatar: number,
+    type: string,
+    commented_id: string,
+
+}
+
+export interface CommentsResponse {
+    message?: string,
+    result: CommentsEntity[] | [],
+}

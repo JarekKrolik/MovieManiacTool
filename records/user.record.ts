@@ -26,7 +26,7 @@ export class UserRecord implements UserEntity {
             throw new ValidationError('name should be between 3 and 10 characters')
         }
         if (obj.email.indexOf('@') < 0) {
-            throw new ValidationError('invalid email adress  !')
+            throw new ValidationError('invalid email address  !')
         }
         if (!obj.passwordhash || obj.passwordhash.length < 6) {
             throw new ValidationError('invalid or to short password  !')
