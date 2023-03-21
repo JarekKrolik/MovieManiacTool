@@ -76,12 +76,16 @@ export const commentsRouter = Router()
     .put('/', async (req: Request, res: Response) => {
         try {
             const {id, newComment} = req.body
-            await pool.execute("UPDATE `comments` SET `comment`=:newComment,`created_at`=:date WHERE `id`=:id", {
-                id,
-                newComment,
-                date: new Date().toLocaleString()
-            })
-            res.json({message: 'comment updated'})
+            if (!newComment || newComment === ' ') {
+                res.json({message: 'comment is empty !'})
+            } else {
+                await pool.execute("UPDATE `comments` SET `comment`=:newComment,`created_at`=:date WHERE `id`=:id", {
+                    id,
+                    newComment,
+                    date: new Date(),
+                })
+                res.json({message: 'comment updated'})
+            }
         } catch (e) {
             throw new ValidationError(e)
         }
