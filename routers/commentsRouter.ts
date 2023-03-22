@@ -7,6 +7,38 @@ import {CommentsEntity, CommentsResponse} from "../types";
 
 
 export const commentsRouter = Router()
+    .post('/answers', async (req: Request, res: Response) => {
+        try {
+            const {mainCommentId, comment, user, avatar} = req.body
+            const newId = v4()
+            await pool.execute("INSERT INTO `comments_answers`(`id`, `comment_id`, `comment`,  `user`, `avatar`) VALUES (:id,:mainCommentId,:comment,:user,:avatar)", {
+                id: newId,
+                mainCommentId,
+                comment,
+                user,
+                avatar,
+
+            })
+            res.json({message: 'answer to comment added'})
+
+        } catch (e) {
+            res.json({
+                message: 'something went wrong...'
+            })
+        }
+
+
+    })
+    .get('/answers/:id', async (req: Request, res: Response) => {
+        const id = req.params.id;
+        const response = await pool.execute("SELECT * FROM `comments_answers` WHERE `comment_id` = :id", {
+            id,
+        }) as [any[], FieldPacket[]]
+        console.log(response[0])
+        res.json(response[0])
+
+
+    })
     .get('/:id/:type', async (req: Request, res: Response) => {
         try {
             const data = await pool.execute("SELECT `name`, `comment`, `created_at`,`id`, `avatar` FROM `comments` WHERE `commented_id`=:id AND `type`=:type ORDER BY `created_at` ASC ", {
@@ -50,23 +82,24 @@ export const commentsRouter = Router()
             try {
                 const data = await req.body;
                 const id = v4();
-                if (data.comment === '') {
+                if (data.comment === ' ' || data.comment === '') {
                     res.json({
                         message: 'empty comment'
                     })
-                }
-                await pool.execute("INSERT INTO `comments`(`id`, `commented_id`, `name`, `comment`, `avatar`, `type`) VALUES (:id,:commented_id,:name,:comment,:avatar,:type)", {
-                    id: id,
-                    commented_id: data.commented_id,
-                    name: data.name,
-                    comment: data.comment,
-                    avatar: data.avatar,
-                    type: data.type,
-                })
+                } else {
+                    await pool.execute("INSERT INTO `comments`(`id`, `commented_id`, `name`, `comment`, `avatar`, `type`) VALUES (:id,:commented_id,:name,:comment,:avatar,:type)", {
+                        id: id,
+                        commented_id: data.commented_id,
+                        name: data.name,
+                        comment: data.comment,
+                        avatar: data.avatar,
+                        type: data.type,
+                    })
 
-                res.json({
-                    message: 'comment added...',
-                })
+                    res.json({
+                        message: 'comment added...',
+                    })
+                }
 
             } catch (e) {
                 throw new ValidationError(e)
