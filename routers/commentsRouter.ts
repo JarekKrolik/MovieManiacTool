@@ -27,6 +27,24 @@ export const commentsRouter = Router()
 
 
     })
+    .put('/answers/:id', async (req: Request, res: Response) => {
+        try {
+            const id = req.params.id;
+            const {comment} = req.body;
+            await pool.execute("UPDATE `comments_answers` SET `comment`=:comment WHERE `id`=:id", {
+                id,
+                comment,
+            })
+            res.json({
+                message: 'answer to comment updated',
+            })
+        } catch (e) {
+            throw new ValidationError(e)
+
+        }
+
+
+    })
     .get('/answers/:id', async (req: Request, res: Response) => {
         try {
             const id = req.params.id;
