@@ -198,3 +198,17 @@ export interface CommentsResponse {
     message?: string,
     result: CommentsEntity[] | [],
 }
+
+export interface AnswerToComment {
+    id: string,
+    comment_id: string,
+    comment: string,
+    avatar: number,
+    user: string,
+    created_at: Date,
+}
+
+export interface AnswersResponse {
+    result: AnswerToComment[],
+    message: string,
+}

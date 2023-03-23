@@ -3,7 +3,7 @@ import {ValidationError} from "../utils/handleErrors";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
 import {v4} from 'uuid';
-import {CommentsEntity, CommentsResponse} from "../types";
+import {AnswersResponse, AnswerToComment, CommentsEntity, CommentsResponse} from "../types";
 
 
 export const commentsRouter = Router()
@@ -22,20 +22,25 @@ export const commentsRouter = Router()
             res.json({message: 'answer to comment added'})
 
         } catch (e) {
-            res.json({
-                message: 'something went wrong...'
-            })
+            throw new ValidationError(e)
         }
 
 
     })
     .get('/answers/:id', async (req: Request, res: Response) => {
-        const id = req.params.id;
-        const response = await pool.execute("SELECT * FROM `comments_answers` WHERE `comment_id` = :id", {
-            id,
-        }) as [any[], FieldPacket[]]
-        console.log(response[0])
-        res.json(response[0])
+        try {
+            const id = req.params.id;
+            const response = await pool.execute("SELECT * FROM `comments_answers` WHERE `comment_id` = :id", {
+                id,
+            }) as [AnswerToComment[], FieldPacket[]]
+            const data = {
+                result: response[0],
+                message: 'comments loaded'
+            } as AnswersResponse
+            res.json(data)
+        } catch (e) {
+            throw new ValidationError(e)
+        }
 
 
     })
@@ -58,6 +63,20 @@ export const commentsRouter = Router()
             })
         }
 
+
+    })
+    .delete('/answers', async (req: Request, res: Response) => {
+        try {
+            const {id} = req.body
+            await pool.execute("DELETE FROM `comments_answers` WHERE `id`=:id", {
+                id,
+            })
+            res.json({
+                message: 'answer to comment deleted'
+            })
+        } catch (e) {
+            throw new ValidationError(e)
+        }
 
     })
     .delete('/', async (req: Request, res: Response) => {
