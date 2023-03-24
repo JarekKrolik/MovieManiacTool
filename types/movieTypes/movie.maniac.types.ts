@@ -212,6 +212,18 @@ export interface AnswerToComment {
     disliked: number,
 }
 
+export interface LikeEntity {
+    id: string,
+    liked_id: string,
+    user: string,
+}
+
+export interface DislikeEntity {
+    id: string,
+    dislike_id: string,
+    user: string,
+}
+
 export interface AnswersResponse {
     result: AnswerToComment[],
     message: string,
