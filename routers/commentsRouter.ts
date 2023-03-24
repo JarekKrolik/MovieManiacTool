@@ -64,7 +64,7 @@ export const commentsRouter = Router()
     })
     .get('/:id/:type', async (req: Request, res: Response) => {
         try {
-            const data = await pool.execute("SELECT `name`, `comment`, `created_at`,`id`, `avatar` FROM `comments` WHERE `commented_id`=:id AND `type`=:type ORDER BY `created_at` ASC ", {
+            const data = await pool.execute("SELECT `name`, `comment`, `created_at`,`id`, `avatar`,`liked`,`disliked` FROM `comments` WHERE `commented_id`=:id AND `type`=:type ORDER BY `created_at` ASC ", {
                 id: req.params.id,
                 type: req.params.type,
             }) as [CommentsEntity[], FieldPacket[]];

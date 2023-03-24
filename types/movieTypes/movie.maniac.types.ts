@@ -191,6 +191,8 @@ export interface CommentsEntity {
     avatar: number,
     type: string,
     commented_id: string,
+    liked: number,
+    disliked: number,
 
 }
 
@@ -206,6 +208,8 @@ export interface AnswerToComment {
     avatar: number,
     user: string,
     created_at: Date,
+    liked: number,
+    disliked: number,
 }
 
 export interface AnswersResponse {
