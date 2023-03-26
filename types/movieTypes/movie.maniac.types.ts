@@ -216,12 +216,14 @@ export interface LikeEntity {
     id: string,
     liked_id: string,
     user: string,
+    original_comment_id: string,
 }
 
 export interface DislikeEntity {
     id: string,
     dislike_id: string,
     user: string,
+    original_comment_id: string,
 }
 
 export interface AnswersResponse {
