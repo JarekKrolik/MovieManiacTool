@@ -3,56 +3,51 @@ import {ValidationError} from "../utils/handleErrors";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
 import {v4} from 'uuid';
-import {AnswersResponse, AnswerToComment, CommentsEntity, CommentsResponse, DislikeEntity, LikeEntity} from "../types";
+import {AnswersResponse, AnswerToComment, CommentsEntity, CommentsResponse} from "../types";
+import {CommentsRepository} from "../utils/repositories/commentsRepository/commentsRepository";
 
 
 export const commentsRouter = Router()
     .delete('/likes', async (req: Request, res: Response) => {
         try {
-            const {commentId, user} = req.body;
+            const {commentId, user, type} = req.body;
             const id = v4()
-            const data = await pool.execute("SELECT `disliked_id`, `user` FROM `comments_dislikes` WHERE `user`=:user AND `disliked_id`=:commentId", {
-                user,
-                commentId,
-            }) as [DislikeEntity[], FieldPacket[]]
-            if (data[0].length === 0) {
-                const isAlreadyLiked = await pool.execute("SELECT * FROM `comments_likes` WHERE `user`=:user AND `liked_id`=:commentId", {
-                    user,
-                    commentId,
-                }) as [LikeEntity[], FieldPacket[]]
-                if (isAlreadyLiked[0].length > 0) {
-                    pool.execute("DELETE FROM `comments_likes` WHERE `user`=:user AND `liked_id`=:commentId", {
-                        user,
-                        commentId,
-                    })
-                    let likesNumber = await pool.execute("SELECT  `liked` FROM `comments` WHERE `id`=:commentId", {
-                        commentId,
-                    }) as [CommentsEntity[], FieldPacket[]]
-                    const newLikesNumber = --likesNumber[0][0].liked
-                    await pool.execute("UPDATE `comments` SET `liked`=:number WHERE `id`=:id", {
-                        id: commentId,
-                        number: newLikesNumber,
-                    })
+            const dislikesList = await CommentsRepository.getDislikes(user, commentId)
+            if (dislikesList.length === 0) {
+                const likesList = await CommentsRepository.getLikes(user, commentId)
+                if (likesList.length > 0) {
+                    await CommentsRepository.deleteLike(user, commentId)
 
+                    if (type === 'comment') {
+                        const likesNumber = await CommentsRepository.getLikesCountFromComment(commentId, type)
+                        const newLikesNumber = --likesNumber.liked
+                        await CommentsRepository.updateLikesCountInComment(commentId, newLikesNumber, type)
+                    }
+
+                    if (type === 'answer') {
+                        const likesNumber = await CommentsRepository.getLikesCountFromComment(commentId, type)
+                        const newLikesNumber = --likesNumber.liked
+                        await CommentsRepository.updateLikesCountInComment(commentId, newLikesNumber, type)
+                    }
                 }
-                await pool.execute("INSERT INTO `comments_dislikes`(`id`, `disliked_id`, `user`) VALUES (:id,:disliked_id,:user)", {
-                    id,
-                    disliked_id: commentId,
-                    user,
-                })
 
-                let disLikesNumber = await pool.execute("SELECT  `disliked` FROM `comments` WHERE `id`=:commentId", {
-                    commentId,
-                }) as [CommentsEntity[], FieldPacket[]]
-                const newDislikesNumber = ++disLikesNumber[0][0].disliked
-                await pool.execute("UPDATE `comments` SET `disliked`=:number WHERE `id`=:id", {
-                    id: commentId,
-                    number: newDislikesNumber,
-                })
+                await CommentsRepository.insertDislikeIntoDatabase(id, commentId, user)
+
+                if (type === 'comment') {
+                    const dislikesCount = await CommentsRepository.getDislikesCountFromComment(commentId, type)
+                    const newDislikesNumber = ++dislikesCount.disliked
+                    await CommentsRepository.updateDislikesCountInComment(commentId, newDislikesNumber, type)
+                }
+
+                if (type === 'answer') {
+                    const dislikesCount = await CommentsRepository.getDislikesCountFromComment(commentId, type)
+                    const newDislikesNumber = ++dislikesCount.disliked
+                    await CommentsRepository.updateDislikesCountInComment(commentId, newDislikesNumber, type)
+                }
+
                 res.json({
                     message: 'dislike added'
                 })
-
 
             } else {
                 res.json({
@@ -61,56 +56,46 @@ export const commentsRouter = Router()
             }
         } catch (e) {
             throw new ValidationError(e)
-
         }
-
 
     })
     .post('/likes', async (req: Request, res: Response) => {
         try {
-            const {commentId, user} = req.body;
+            const {commentId, user, type} = req.body;
             const id = v4()
-            const data = await pool.execute("SELECT `liked_id`, `user` FROM `comments_likes` WHERE `user`=:user AND `liked_id`=:commentId", {
-                user,
-                commentId,
-            }) as [LikeEntity[], FieldPacket[]]
+            const likesList = await CommentsRepository.getLikes(user, commentId)
 
-            if (data[0].length === 0) {
-                const isAlreadyDisliked = await pool.execute("SELECT * FROM `comments_dislikes` WHERE `user`=:user AND `disliked_id`=:commentId", {
-                    user,
-                    commentId,
-                }) as [DislikeEntity[], FieldPacket[]]
-                if (isAlreadyDisliked[0].length > 0) {
-                    pool.execute("DELETE FROM `comments_dislikes` WHERE `user`=:user AND `disliked_id`=:commentId", {
-                        user,
-                        commentId,
-                    })
-                    let dislikesNumber = await pool.execute("SELECT  `disliked` FROM `comments` WHERE `id`=:commentId", {
-                        commentId,
-                    }) as [CommentsEntity[], FieldPacket[]]
-                    const newDislikesNumber = --dislikesNumber[0][0].disliked
-                    await pool.execute("UPDATE `comments` SET `disliked`=:number WHERE `id`=:id", {
-                        id: commentId,
-                        number: newDislikesNumber
-                    })
+            if (likesList.length === 0) {
+                const dislikesList = await CommentsRepository.getDislikes(user, commentId)
+                if (dislikesList.length > 0) {
+                    await CommentsRepository.deleteDislike(user, commentId)
+
+                    if (type === 'comment') {
+                        const dislikesCount = await CommentsRepository.getDislikesCountFromComment(commentId, type)
+                        const newDislikesNumber = --dislikesCount.disliked
+                        await CommentsRepository.updateDislikesCountInComment(commentId, newDislikesNumber, type)
+                    }
+
+                    if (type === 'answer') {
+                        const dislikesCount = await CommentsRepository.getDislikesCountFromComment(commentId, type)
+                        const newDislikesNumber = --dislikesCount.disliked
+                        await CommentsRepository.updateDislikesCountInComment(commentId, newDislikesNumber, type)
+                    }
+                }
+
+                await CommentsRepository.insertLikeIntoDatabase(id, commentId, user)
+
+                if (type === 'comment') {
+                    const likesCount = await CommentsRepository.getLikesCountFromComment(commentId, type)
+                    const newLikesCount = ++likesCount.liked
+                    await CommentsRepository.updateLikesCountInComment(commentId, newLikesCount, type)
 
                 }
-                await pool.execute("INSERT INTO `comments_likes`(`id`, `liked_id`, `user`) VALUES (:id,:liked_id,:user)", {
-                    id,
-                    liked_id: commentId,
-                    user,
-                })
-
-                let likesNumber = await pool.execute("SELECT  `liked` FROM `comments` WHERE `id`=:commentId", {
-                    commentId,
-                }) as [CommentsEntity[], FieldPacket[]]
-                const newLikesNumber = ++likesNumber[0][0].liked
-                await pool.execute("UPDATE `comments` SET `liked`=:number WHERE `id`=:id", {
-                    id: commentId,
-                    number: newLikesNumber,
-                })
-
-
+                if (type === 'answer') {
+                    const likesCount = await CommentsRepository.getLikesCountFromComment(commentId, type)
+                    const newLikesCount = ++likesCount.liked
+                    await CommentsRepository.updateLikesCountInComment(commentId, newLikesCount, type)
+                }
                 res.json({
                     message: 'like added'
                 })
@@ -129,30 +114,18 @@ export const commentsRouter = Router()
         try {
             const {mainCommentId, comment, user, avatar} = req.body
             const newId = v4()
-            await pool.execute("INSERT INTO `comments_answers`(`id`, `comment_id`, `comment`,  `user`, `avatar`) VALUES (:id,:mainCommentId,:comment,:user,:avatar)", {
-                id: newId,
-                mainCommentId,
-                comment,
-                user,
-                avatar,
-
-            })
+            await CommentsRepository.addAnswerToComment(newId, mainCommentId, comment, user, avatar)
             res.json({message: 'answer to comment added'})
-
         } catch (e) {
             throw new ValidationError(e)
         }
-
 
     })
     .put('/answers/:id', async (req: Request, res: Response) => {
         try {
             const id = req.params.id;
             const {comment} = req.body;
-            await pool.execute("UPDATE `comments_answers` SET `comment`=:comment WHERE `id`=:id", {
-                id,
-                comment,
-            })
+            await CommentsRepository.updateAnswerToComment(id, comment)
             res.json({
                 message: 'answer to comment updated',
             })
@@ -207,6 +180,15 @@ export const commentsRouter = Router()
             await pool.execute("DELETE FROM `comments_answers` WHERE `id`=:id", {
                 id,
             })
+            await pool.execute("DELETE FROM `comments_likes` WHERE `liked_id`=:id", {
+                id,
+            })
+            await pool.execute("DELETE FROM `comments_dislikes` WHERE `disliked_id`=:id", {
+                id,
+            })
+            await pool.execute("DELETE FROM `comments_answers` WHERE `comment_id`=:id", {
+                id,
+            })
             res.json({
                 message: 'answer to comment deleted'
             })
@@ -221,6 +203,16 @@ export const commentsRouter = Router()
             const id = req.body.id;
             await pool.execute("DELETE FROM `comments` WHERE `id`=:id", {
                 id: id,
+            })
+
+            await pool.execute("DELETE FROM `comments_likes` WHERE `liked_id`=:id", {
+                id,
+            })
+            await pool.execute("DELETE FROM `comments_dislikes` WHERE `disliked_id`=:id", {
+                id,
+            })
+            await pool.execute("DELETE FROM `comments_answers` WHERE `comment_id`=:id", {
+                id,
             })
 
             res.json({
