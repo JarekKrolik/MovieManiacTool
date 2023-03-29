@@ -16,8 +16,8 @@ export const verificationRouter = Router()
 
     })
     .post('/:name', async (req: Request, res: Response) => {
-        const name = req.params.name;
-        const code = Number(req.body.code);
+        const name = req.params.name
+        const code = Number(req.body.code)
         const userCode = await UserVerification.userVerification(name)
 
 

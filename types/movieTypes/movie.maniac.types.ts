@@ -230,3 +230,19 @@ export interface AnswersResponse {
     result: AnswerToComment[],
     message: string,
 }
+
+export type StreamingProviderLinks = {
+    type: string,
+    quality: string,
+    link: string,
+    addon: string,
+}
+
+// export type StreamingProvider = StreamingProviderLinks[]
+
+export interface StreamingAvailability {
+    us: {
+        provider?: StreamingProviderLinks[],
+    }
+
+}
