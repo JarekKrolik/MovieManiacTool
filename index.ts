@@ -1,30 +1,37 @@
-import express, {json, Request, Response, Router} from "express";
+import express, {json} from "express";
 import cors from 'cors';
 import 'express-async-errors';
-import {handleErrors, ValidationError} from "./utils/handleErrors";
+import {handleErrors} from "./utils/handleErrors";
 import rateLimit from 'express-rate-limit';
-
 import {configCorsUrl} from "./utils/configCorsUrl";
-import {movieRouter} from "./routers/movieRouter";
+import {userRouter} from "./routers/userRouter";
+import {verificationRouter} from "./routers/verificationRouter";
+import {favouriteRouter} from "./routers/favouriteRouter";
+import {commentsRouter} from "./routers/commentsRouter";
+
 const bodyParser = require('body-parser')
 
-const app =express()
+const app = express()
 
 
 app.use(cors({
-    origin:configCorsUrl,
+    origin: configCorsUrl,
 }));
 app.use(json());
 app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
+app.use(bodyParser.urlencoded({extended: true}))
 app.use(rateLimit({
     windowMs: 5 * 60 * 1000,
     max: 100,
 }))
 
-app.use('/movie/',movieRouter)
+
+app.use('/user/', userRouter)
+app.use('/verify/', verificationRouter)
+app.use('/favourite/', favouriteRouter)
+app.use('/comments/', commentsRouter)
 
 app.use(handleErrors)
-app.listen(3001,'0.0.0.0',()=>{
+app.listen(3001, '0.0.0.0', () => {
     console.log('listening on port http://localhost:3001')
 })
