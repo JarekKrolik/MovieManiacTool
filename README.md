@@ -26,3 +26,6 @@ Front - End for MovieManiac
 
 https://github.com/JarekKrolik/MovieManiacsFrontEnd.git
 
+## How to start
+
+1. 
