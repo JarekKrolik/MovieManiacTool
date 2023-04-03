@@ -61,6 +61,15 @@ export class UserRecord implements UserEntity {
 
     }
 
+    static async removeAccount(userName: string, userId: string) {
+        await pool.execute("DELETE FROM `userslist` WHERE `id`=:userId AND `name`=:userName", {
+                userName,
+                userId,
+            }
+        );
+
+    }
+
     static async changeAvatar(id: string, avatar: number): Promise<void> {
         await pool.execute("UPDATE `userslist` SET `avatar`=:avatar WHERE `id`=:id", {
                 avatar: String(avatar),

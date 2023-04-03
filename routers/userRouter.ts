@@ -75,3 +75,16 @@ export const userRouter = Router()
             throw new ValidationError(e)
         }
     })
+    .delete('/', async (req: Request, res: Response) => {
+        try {
+            const {userName, userId} = req.body
+            await UserRecord.removeAccount(userName, userId);
+
+            res.json({
+                message: `${userName} account was deleted.`
+            })
+        } catch (e) {
+            throw new ValidationError(e)
+        }
+
+    })

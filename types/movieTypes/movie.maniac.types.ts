@@ -238,7 +238,6 @@ export type StreamingProviderLinks = {
     addon: string,
 }
 
-// export type StreamingProvider = StreamingProviderLinks[]
 
 export interface StreamingAvailability {
     us: {

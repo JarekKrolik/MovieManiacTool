@@ -1,4 +1,4 @@
-import express, {json} from "express";
+import express, {json, Router} from "express";
 import cors from 'cors';
 import 'express-async-errors';
 import {handleErrors} from "./utils/handleErrors";
@@ -25,11 +25,17 @@ app.use(rateLimit({
     max: 100,
 }))
 
-
+const router = Router()
 app.use('/user/', userRouter)
 app.use('/verify/', verificationRouter)
 app.use('/favourite/', favouriteRouter)
 app.use('/comments/', commentsRouter)
+
+// router.use('/user/', userRouter)
+// router.use('/verify/', verificationRouter)
+// router.use('/favourite/', favouriteRouter)
+// router.use('/comments/', commentsRouter)
+// app.use('/movie', router)
 
 app.use(handleErrors)
 app.listen(3001, '0.0.0.0', () => {
