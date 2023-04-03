@@ -68,6 +68,7 @@ export class UserRecord implements UserEntity {
             }
         );
 
+
     }
 
     static async changeAvatar(id: string, avatar: number): Promise<void> {
