@@ -1,6 +1,7 @@
 import {pool} from "../../db";
 import {ActorsListEntity, MovieListEntity} from "../../../types";
 import {FieldPacket} from "mysql2";
+import {v4} from "uuid";
 
 export class FavouriteMovies {
     static async getFavouriteActors(user: string) {
@@ -20,7 +21,9 @@ export class FavouriteMovies {
     }
 
     static async insertFavouriteMovieIntoDatabase(id: string, user: string, title: string, image: string) {
-        await pool.execute("INSERT INTO `favourites` (`movie_id`,`user`,`name`,`image`) VALUES (:id,:user,:name,:image)", {
+        const recordId = v4()
+        await pool.execute("INSERT INTO `favourites` (`id`,`movie_id`,`user`,`name`,`image`) VALUES (:recordId,:id,:user,:name,:image)", {
+            recordId,
             id,
             user,
             name: title,
@@ -29,7 +32,9 @@ export class FavouriteMovies {
     }
 
     static async insertFavouriteActorIntoDatabase(id: string, user: string, title: string, image: string) {
-        await pool.execute("INSERT INTO `favourite_actors` (`actor_id`,`user`,`name`,`image`) VALUES (:id,:user,:name,:image)", {
+        const recordId = v4()
+        await pool.execute("INSERT INTO `favourite_actors` (`id`,`actor_id`,`user`,`name`,`image`) VALUES (:recordId,:id,:user,:name,:image)", {
+            recordId,
             id,
             user,
             name: title,
@@ -50,4 +55,14 @@ export class FavouriteMovies {
             user,
         })
     }
+
+    static async deleteAllFavouriteMoviesAndActors(user: string) {
+        await pool.execute(" DELETE FROM `favourite_actors` WHERE  `user`=:user", {
+            user,
+        })
+        await pool.execute(" DELETE FROM `favourites` WHERE  `user`=:user", {
+            user,
+        })
+    }
+
 }

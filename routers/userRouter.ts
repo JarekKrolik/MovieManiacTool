@@ -4,6 +4,7 @@ import {UserEntity} from "../types";
 import {sendVerEmail} from "../utils/sendVerificationEmail";
 import {ValidationError} from "../utils/handleErrors";
 import {noVerifiedAccountsRemover} from "../utils/noVerifiedAccountsRemover";
+import {FavouriteMovies} from "../utils/repositories/favouriteMoviesRepository/favouriteMovies";
 
 
 export const userRouter = Router()
@@ -79,7 +80,7 @@ export const userRouter = Router()
         try {
             const {userName, userId} = req.body
             await UserRecord.removeAccount(userName, userId);
-
+            await FavouriteMovies.deleteAllFavouriteMoviesAndActors(userName)
             res.json({
                 message: `${userName} account was deleted.`
             })
