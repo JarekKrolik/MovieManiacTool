@@ -23,7 +23,6 @@ export class UserRecord implements UserEntity {
             obj.id = v4()
         }
         const passwordIsStrong = passwordStrength(obj.passwordhash).id
-        console.log(passwordIsStrong)
         if (obj.name.length < 3 || obj.name.length > 30) {
             throw new ValidationError('name should be between 3 and 30 characters')
         }
@@ -52,7 +51,7 @@ export class UserRecord implements UserEntity {
     static async resetPassword(): Promise<string> {
         return generate({
             length: 10,
-            numbers: true
+            numbers: true,
         })
     }
 
