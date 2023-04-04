@@ -1,4 +1,4 @@
-import {UserEntity} from "../types/movieTypes/user.type";
+import {UserEntity} from "../types";
 import {v4} from 'uuid'
 import {ValidationError} from "../utils/handleErrors";
 import {pool} from "../utils/db";
@@ -22,8 +22,8 @@ export class UserRecord implements UserEntity {
             obj.id = v4()
         }
 
-        if (obj.name.length < 3 || obj.name.length > 10) {
-            throw new ValidationError('name should be between 3 and 10 characters')
+        if (obj.name.length < 3 || obj.name.length > 30) {
+            throw new ValidationError('name should be between 3 and 30 characters')
         }
         if (obj.email.indexOf('@') < 0) {
             throw new ValidationError('invalid email address  !')
