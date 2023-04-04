@@ -1,6 +1,8 @@
 
 # MovieManiac Backend
 
+[![My Skills](https://skillicons.dev/icons?i=express,js,mysql,nodejs,ts)](https://skillicons.dev)
+
 Backend for MovieManiac application.
 Created in TypeScript using Express JS and mySQL database.
 App functions :
