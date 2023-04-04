@@ -30,6 +30,34 @@ Front - End for MovieManiac
 
 https://github.com/JarekKrolik/MovieManiacsFrontEnd.git
 
-## How to start
+## Run Locally
 
-1. 
+Clone the project
+
+```bash
+  git clone https://link-to-project
+```
+
+Go to the project directory
+
+```bash
+  cd my-project
+```
+
+Install dependencies
+
+```bash
+  npm install
+```
+```bash
+  import sql database from sql_database folder in repository
+```
+```bash
+  configure database config file in MovieManiac\utils\config\db.config.ts to link backend and database
+```
+
+Start the server
+
+```bash
+  npm run start
+```
