@@ -4,7 +4,8 @@ import {ValidationError} from "../utils/handleErrors";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
 import {compare, hash} from "bcrypt";
-import {generate} from 'generate-password'
+import {generate} from 'generate-password';
+import {passwordStrength} from "check-password-strength";
 
 export class UserRecord implements UserEntity {
     email: string;
@@ -21,7 +22,8 @@ export class UserRecord implements UserEntity {
         if (!obj.id) {
             obj.id = v4()
         }
-
+        const passwordIsStrong = passwordStrength(obj.passwordhash).id
+        console.log(passwordIsStrong)
         if (obj.name.length < 3 || obj.name.length > 30) {
             throw new ValidationError('name should be between 3 and 30 characters')
         }
@@ -30,6 +32,9 @@ export class UserRecord implements UserEntity {
         }
         if (!obj.passwordhash || obj.passwordhash.length < 6) {
             throw new ValidationError('invalid or to short password  !')
+        }
+        if (passwordIsStrong < 2) {
+            throw new ValidationError('password is too weak, add number or special characters')
         }
 
 
