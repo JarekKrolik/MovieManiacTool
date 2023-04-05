@@ -51,7 +51,7 @@ https://github.com/JarekKrolik/MovieManiacsFrontEnd.git
 Clone the project
 
 ```bash
-  git clone https://link-to-project
+  git clone https://github.com/JarekKrolik/MovieManiacTool.git
 ```
 
 Go to the project directory
