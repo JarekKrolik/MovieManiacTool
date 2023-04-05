@@ -64,3 +64,5 @@ Start the server
 ```bash
   npm run start
 ```
+
+Go to https://github.com/JarekKrolik/MovieManiacsFrontEnd.git to get front-end part of application
