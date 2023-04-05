@@ -1,14 +1,15 @@
 
 # MovieManiac Backend
 
-[![My Skills](https://skillicons.dev/icons?i=express,js,mysql,nodejs,ts)](https://skillicons.dev)
 
 Backend for MovieManiac application.
-Created in TypeScript using Express JS and mySQL database.
+
+[![My Skills](https://skillicons.dev/icons?i=express,js,mysql,nodejs,ts)](https://skillicons.dev)
+
 App functions :
-- creating, loading and deleting accounts of users
+- creating and managing users accounts
 - handling user verification, loggin-in, loggin-out, reseting passwords, sending emails to users,
-- storing user data in mySQL database using password hashing and place-holders for preventing SQL-injection attacks
+- storing user data in mySQL database using password hashing and  variables place-holders for preventing SQL-injection attacks
 - handling comments: adding, editing and deleting
 - handling likes and dislikes for comments
 
