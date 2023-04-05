@@ -39,7 +39,7 @@ color: cornflowerblue;"
     const mailOptions = {
         from: 'madmax@onet.eu',
         to: email,
-        subject: 'Reset hasła do konta MovieManiac',
+        subject: 'Reset password for MovieManiac',
         html: message,
 
     };

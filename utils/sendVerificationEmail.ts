@@ -6,7 +6,7 @@ export const sendVerEmail = (email: string, verificationCode: number) => {
 text-align: center;
 background-color: #1c1b1b;
 ">
-<h1 style="height: 30vh;
+<h1 style="min-height: 30vh;
 background-color: #1c1b1b;
 color: cornflowerblue;
 ">MovieManiac</h1>
@@ -39,7 +39,7 @@ color: cornflowerblue;"
     const mailOptions = {
         from: 'madmax@onet.eu',
         to: email,
-        subject: 'Weryfikacja konta MovieManiac',
+        subject: 'MovieManiac account verification',
         html: message,
 
     };
