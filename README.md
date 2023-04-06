@@ -30,6 +30,7 @@ App functions :
 [screenVideo.webm](https://user-images.githubusercontent.com/101992103/229598204-328cc460-91dc-4d2b-8da1-977472303d3b.webm)
 
 
+![Zrzut ekranu (8)](https://user-images.githubusercontent.com/101992103/230477389-cf09459c-a77a-4819-93b0-f167718e8a85.png)
 
 ## Working application on website address:
 
