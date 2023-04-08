@@ -1,10 +1,11 @@
-import {UserEntity} from "../types/movieTypes/user.type";
+import {UserEntity} from "../types";
 import {v4} from 'uuid'
 import {ValidationError} from "../utils/handleErrors";
 import {pool} from "../utils/db";
 import {FieldPacket} from "mysql2";
 import {compare, hash} from "bcrypt";
-import {generate} from 'generate-password'
+import {generate} from 'generate-password';
+import {passwordStrength} from "check-password-strength";
 
 export class UserRecord implements UserEntity {
     email: string;
@@ -21,15 +22,18 @@ export class UserRecord implements UserEntity {
         if (!obj.id) {
             obj.id = v4()
         }
-
-        if (obj.name.length < 3 || obj.name.length > 10) {
-            throw new ValidationError('name should be between 3 and 10 characters')
+        const passwordIsStrong = passwordStrength(obj.passwordhash).id
+        if (obj.name.length < 3 || obj.name.length > 30) {
+            throw new ValidationError('name should be between 3 and 30 characters')
         }
         if (obj.email.indexOf('@') < 0) {
             throw new ValidationError('invalid email address  !')
         }
         if (!obj.passwordhash || obj.passwordhash.length < 6) {
             throw new ValidationError('invalid or to short password  !')
+        }
+        if (passwordIsStrong < 2) {
+            throw new ValidationError('password is too weak, add number or special characters')
         }
 
 
@@ -47,7 +51,7 @@ export class UserRecord implements UserEntity {
     static async resetPassword(): Promise<string> {
         return generate({
             length: 10,
-            numbers: true
+            numbers: true,
         })
     }
 
