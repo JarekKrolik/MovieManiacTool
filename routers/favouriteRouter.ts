@@ -16,7 +16,7 @@ export const favouriteRouter = Router()
 
     })
     .post('/', async (req: Request, res: Response) => {
-        const {id, user, title, image, type} = await req.body;
+        const {id, user, title, image, type} = await req.body
 
         try {
             if (type === 'movie') {
@@ -36,7 +36,7 @@ export const favouriteRouter = Router()
     })
     .delete('/', async (req: Request, res: Response) => {
         try {
-            const {id, user, type} = await req.body;
+            const {id, user, type} = await req.body
             if (type === 'movie') {
                 await FavouriteMovies.deleteMovieFromFavouritesList(id, user)
             }

@@ -70,7 +70,7 @@ export class UserRecord implements UserEntity {
                 userName,
                 userId,
             }
-        );
+        )
 
 
     }
@@ -80,7 +80,7 @@ export class UserRecord implements UserEntity {
                 avatar: String(avatar),
                 id: id,
             }
-        );
+        )
     }
 
     static async getOneUser(id: string): Promise<UserEntity[]> {
@@ -126,7 +126,7 @@ export class UserRecord implements UserEntity {
             verificationCode: verificationCode,
         })
 
-        return verificationCode;
+        return verificationCode
 
     }
 

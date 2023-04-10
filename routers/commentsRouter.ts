@@ -138,7 +138,7 @@ export const commentsRouter = Router()
 
 
     })
- 
+
     .get('/answers/:id', async (req: Request, res: Response) => {
         try {
             const id = req.params.id;
@@ -201,8 +201,8 @@ export const commentsRouter = Router()
     })
     .post('/', async (req: Request, res: Response) => {
             try {
-                const {comment, commented_id, name, avatar, type} = req.body;
-                const id = v4();
+                const {comment, commented_id, name, avatar, type} = req.body
+                const id = v4()
                 if (comment === ' ' || comment === '') {
                     res.json({
                         message: 'empty comment'
