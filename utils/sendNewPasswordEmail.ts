@@ -1,4 +1,4 @@
-import {createTransport,} from 'nodemailer'
+import {createTransport,} from 'nodemailer';
 
 export const sendNewPasswordEmail = (email: string, password: string) => {
 
@@ -46,9 +46,9 @@ color: cornflowerblue;"
 
     transporter.sendMail(mailOptions, function (error, info) {
         if (error) {
-            console.log(error);
+            console.log(error)
         } else {
-            console.log('Email sent: ' + info.response);
+            console.log('Email sent: ' + info.response)
         }
     });
 }

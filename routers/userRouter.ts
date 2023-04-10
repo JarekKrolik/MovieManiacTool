@@ -13,7 +13,7 @@ export const userRouter = Router()
 
         try {
             const obj = await req.body as UserEntity
-            const newUser = new UserRecord(obj);
+            const newUser = new UserRecord(obj)
             const verificationNumber = await newUser.insertIntoDb()
             sendVerEmail(newUser.email, verificationNumber)
             res.json({
@@ -27,9 +27,9 @@ export const userRouter = Router()
     .post('/:name', async (req: Request, res: Response) => {
         try {
             await noVerifiedAccountsRemover()
-            const id = req.params.name;
-            const password = req.body.pass;
-            const user = await UserRecord.logIn(id, password) as UserEntity;
+            const id = req.params.name
+            const password = req.body.pass
+            const user = await UserRecord.logIn(id, password) as UserEntity
 
             if (!user) {
                 res.json(null)
@@ -51,7 +51,7 @@ export const userRouter = Router()
     })
     .get('/:id', async (req: Request, res: Response) => {
         try {
-            const user = await UserRecord.getOneUser(req.params.id);
+            const user = await UserRecord.getOneUser(req.params.id)
 
             res.json(user)
         } catch (e) {
@@ -68,8 +68,8 @@ export const userRouter = Router()
 
     .put('/:id', async (req: Request, res: Response) => {
         try {
-            const id = req.params.id;
-            const avatar = req.body.avatar;
+            const id = req.params.id
+            const avatar = req.body.avatar
             await UserRecord.changeAvatar(id, avatar)
 
         } catch (e) {
@@ -79,7 +79,7 @@ export const userRouter = Router()
     .delete('/', async (req: Request, res: Response) => {
         try {
             const {userName, userId} = req.body
-            await UserRecord.removeAccount(userName, userId);
+            await UserRecord.removeAccount(userName, userId)
             await FavouriteMovies.deleteAllFavouriteMoviesAndActors(userName)
             res.json({
                 message: `${userName} account was deleted.`
