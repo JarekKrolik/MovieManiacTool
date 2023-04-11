@@ -27,11 +27,15 @@ App functions :
 - handling likes and dislikes for comments
 
 
-[screenVideo.webm](https://user-images.githubusercontent.com/101992103/229598204-328cc460-91dc-4d2b-8da1-977472303d3b.webm)
-
+[screenVideo (2).webm](https://user-images.githubusercontent.com/101992103/231056423-cd7b96ca-4395-4a53-bfc9-2ce3868539c1.webm)
 #
 
-![Zrzut ekranu (8)](https://user-images.githubusercontent.com/101992103/230477389-cf09459c-a77a-4819-93b0-f167718e8a85.png)
+[screenVideo (3).webm](https://user-images.githubusercontent.com/101992103/231056456-90deac18-b035-4dfa-8e50-0bc88bf19c91.webm)
+
+#
+![Zrzut ekranu (11)](https://user-images.githubusercontent.com/101992103/231056500-5eda21d2-338c-4f41-9876-ab6ab3d79298.png)
+
+
 
 ## Working application on website address:
 
